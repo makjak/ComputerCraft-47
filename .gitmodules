@@ -1,0 +1,3 @@
+[submodule "programs/MiningMachine"]
+	path = programs/MiningMachine
+	url = git@github.com:qlonik/MiningMachine.git
