@@ -11,12 +11,12 @@
 xpSide = "right"
 xp = peripheral.wrap(xpSide)
 
-bookSlot = 1
+itemSlot = 1
 enchantingLevel = 30
 
 function dropItems()
 	for i = 1, 16 do
-		if i ~= bookSlot then
+		if i ~= itemSlot then
 			turtle.select(i)
 			turtle.dropDown()
 		end
@@ -24,7 +24,7 @@ function dropItems()
 end
 
 while true do
-	while turtle.getItemCount(bookSlot) == 0 do
+	while turtle.getItemCount(itemSlot) == 0 do
 		while not turtle.suckUp() do
 			sleep(0.5)
 		end
@@ -41,7 +41,7 @@ while true do
 		dropItems()
 	end
 
-	turtle.select(bookSlot)
+	turtle.select(itemSlot)
 	xp.enchant(enchantingLevel)
 	dropItems()
 end
