@@ -44,14 +44,15 @@ while true do
 		end
 		xp.collect()
 
-		if xp.getLevels() % 10 == 0 then
-			dropItems()
-		end
-
 		if xp.getLevels() > prevLevel then
 			print("Current level: "..xp.getLevels())
 			prevLevel = xp.getLevels() 
 		end
+
+		if xp.getLevels() % 10 == 0 then
+			dropItems()
+		end
+
 	end
 
 	print("Enchanting time!")
