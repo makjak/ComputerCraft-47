@@ -8,11 +8,11 @@
 -- and kills mobs in front of it.
 --
 
-xpSide = "right"
-xp = peripheral.wrap(xpSide)
+local xpSide = "right"
+local xp = peripheral.wrap(xpSide)
 
-itemSlot = 1
-enchantingLevel = 30
+local itemSlot = 1
+local enchantingLevel = 30
 
 function dropItems()
 	for i = 1, 16 do
@@ -22,11 +22,7 @@ function dropItems()
 		end
 	end
 
-	if itemSlot ~= 1 then
-		turtle.select(1)
-	else
-		turtle.select(2)
-	end
+	turtle.select(1)
 end
 
 while true do
@@ -37,7 +33,11 @@ while true do
 		sleep(1)
 	end
 
+	local firstDrop = false
+	local secondDrop = false
+	local thirdDrop = false
 	local prevLevel = -1
+
 	while xp.getLevels() < enchantingLevel do
 		if not turtle.attack() then
 			sleep(0.5)
@@ -51,10 +51,16 @@ while true do
 			prevLevel = currLevel
 		end
 
-		if (currLevel % 10 == 0) and (currLevel > 0) then
+		if currLevel == 10 and not firstDrop then
 			dropItems()
+			firstDrop = true
+		else if currLevel == 20 and not secondDrop then
+			dropItems()
+			secondDrop = true
+		else if currLevel == 30 and not thirdDrop then
+			dropItems()
+			thirdDrop = true
 		end
-
 	end
 
 	print("Enchanting time!")
@@ -68,5 +74,5 @@ while true do
 	end
 	xp.enchant(enchantingLevel)
 	turtle.dropDown()
-	turtle.select(itemSlot)
+	turtle.select(1)
 end
