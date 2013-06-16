@@ -21,6 +21,12 @@ function dropItems()
 			turtle.dropDown()
 		end
 	end
+
+	if itemSlot ~= 1 then
+		turtle.select(1)
+	else
+		turtle.select(2)
+	end
 end
 
 while true do
@@ -35,13 +41,11 @@ while true do
 		if not turtle.attack() then
 			sleep(0.5)
 		end
-
 		xp.collect()
-
-		dropItems()
+		print("Current level: "..xp.getLevels())
 	end
+	dropItems()
 
 	turtle.select(itemSlot)
 	xp.enchant(enchantingLevel)
-	dropItems()
 end
