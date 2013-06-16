@@ -37,12 +37,17 @@ while true do
 		sleep(1)
 	end
 
+	local prevLevel = 0
 	while xp.getLevels() < enchantingLevel do
 		if not turtle.attack() then
 			sleep(0.5)
 		end
 		xp.collect()
-		print("Current level: "..xp.getLevels())
+
+		if xp.getLevels() > prevLevel then
+			print("Current level: "..xp.getLevels())
+			prevLevel = xp.getLevels() 
+		end
 	end
 	dropItems()
 
