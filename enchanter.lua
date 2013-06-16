@@ -31,7 +31,7 @@ while true do
 		sleep(1)
 	end
 
-	while xp.getLevel() < enchantingLevel do
+	while xp.getLevels() < enchantingLevel do
 		if not turtle.attack() then
 			sleep(0.5)
 		end
