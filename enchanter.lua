@@ -42,14 +42,16 @@ while true do
 		if not turtle.attack() then
 			sleep(0.5)
 		end
-		xp.collect()
 
-		if xp.getLevels() > prevLevel then
-			print("Current level: "..xp.getLevels())
-			prevLevel = xp.getLevels() 
+		xp.collect()
+		local currLevel = xp.getLevels()
+
+		if currLevel > prevLevel then
+			print("Current level: "..currLevel)
+			prevLevel = currLevel
 		end
 
-		if xp.getLevels() % 10 == 0 then
+		if (currLevel % 10 == 0) and (currLevel > 0) then
 			dropItems()
 		end
 
