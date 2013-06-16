@@ -44,6 +44,10 @@ while true do
 		end
 		xp.collect()
 
+		if xp.getLevels() % 10 == 0 then
+			dropItems()
+		end
+
 		if xp.getLevels() > prevLevel then
 			print("Current level: "..xp.getLevels())
 			prevLevel = xp.getLevels() 
@@ -51,7 +55,6 @@ while true do
 	end
 
 	print("Enchanting time!")
-	dropItems()
 	turtle.select(itemSlot)
 	if itemSlot ~= 16 then
 		turtle.transferTo(itemSlot + 1, 1)
