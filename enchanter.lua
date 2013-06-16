@@ -54,10 +54,10 @@ while true do
 		if (currLevel == 10) and (not firstDrop) then
 			dropItems()
 			firstDrop = true
-		else if (currLevel == 20) and (not secondDrop) then
+		elseif (currLevel == 20) and (not secondDrop) then
 			dropItems()
 			secondDrop = true
-		else if (currLevel == 30) and (not thirdDrop) then
+		elseif (currLevel == 30) and (not thirdDrop) then
 			dropItems()
 			thirdDrop = true
 		end
