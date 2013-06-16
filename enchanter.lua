@@ -51,6 +51,16 @@ while true do
 	end
 	dropItems()
 
+	print("Enchanting time!")
 	turtle.select(itemSlot)
+	if itemSlot ~= 16 then
+		turtle.transfer(itemSlot + 1, 1)
+		turtle.select(itemSlot + 1)
+	else 
+		turtle.transfer(itemSlot - 1, 1)
+		turtle.select(itemSlot - 1)
+	end
 	xp.enchant(enchantingLevel)
+	turtle.dropDown()
+	turtle.select(itemSlot)
 end
