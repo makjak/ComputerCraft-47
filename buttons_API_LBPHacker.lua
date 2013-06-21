@@ -5,7 +5,9 @@ but give credit! (at least something like 'LBP')
 ]]
 
 local container = {}
-local termw, termh = term.getSize()
+
+local screen = term
+local screenWidth, screenHeight = screen.getSize()
 local defaultColorT = colors.white
 local defaultColorB = colors.black
 
@@ -21,7 +23,7 @@ local getClickEvent = function()
 		As you might know, .setTextScale can be found
 		in monitors only.
 		]]
-		if term.setTextScale then
+		if screen.setTextScale then
 			clickEvent = "monitor_touch"
 		else
 			clickEvent = "mouse_click"
@@ -86,23 +88,23 @@ event = function(eventArray)
 end
 
 draw = function()
-	term.setBackgroundColor(defaultColorB)
-	term.clear()
+	screen.setBackgroundColor(defaultColorB)
+	screen.clear()
 	for i = 1, #container do
 		if container[i].alive and container[i].visible then
 			for j = container[i].yorg, container[i].yorg + container[i].height - 1 do
-				term.setCursorPos(container[i].xorg, j)
-				term.setTextColor(container[i].textColor)
-				term.setBackgroundColor(container[i].backgroundColor)
-				term.write(string.rep(" ", container[i].width))
+				screen.setCursorPos(container[i].xorg, j)
+				screen.setTextColor(container[i].textColor)
+				screen.setBackgroundColor(container[i].backgroundColor)
+				screen.write(string.rep(" ", container[i].width))
 			end
-			term.setCursorPos(container[i].xorg + math.floor((container[i].width - #container[i].text) / 2),
+			screen.setCursorPos(container[i].xorg + math.floor((container[i].width - #container[i].text) / 2),
 									container[i].yorg + math.floor((container[i].height - 1) / 2))
-			term.write(container[i].text)
+			screen.write(container[i].text)
 		end
 	end
-	term.setTextColor(defaultColorT)
-	term.setBackgroundColor(defaultColorB)
+	screen.setTextColor(defaultColorT)
+	screen.setBackgroundColor(defaultColorB)
 end
 
 enable = function(buttonID, bEnabled)
@@ -141,4 +143,8 @@ end
 setDefaultColor = function(colorT, colorB)
 	defaultColorT = colorT
 	defaultColorB = colorB
+end
+
+setDefaultOutput = function(out)
+	screen = out
 end
