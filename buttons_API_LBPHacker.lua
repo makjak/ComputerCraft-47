@@ -1,6 +1,7 @@
---[[ * Buttons API by LBPHacker, 2013
-     * You can use it whenever and whereever you want,
-	   but give credit! (at least something like 'LBP')
+--[[
+Buttons API by LBPHacker, 2013
+You can use it whenever and whereever you want,
+but give credit! (at least something like 'LBP')
 ]]
 
 local container = {}
@@ -14,10 +15,11 @@ local getClickEvent = function()
 	if forcedEvent then
 		clickEvent = forcedEvent
 	else
-		--[[ * Below is a pretty way to determine wheter
-		       the terminal is redirected to a monitor or not.
-			 * As you might know, .setTextScale can be found
-			   in monitors only.
+		--[[
+		Below is a pretty way to determine wheter
+		the terminal is redirected to a monitor or not.
+		As you might know, .setTextScale can be found
+		in monitors only.
 		]]
 		if term.setTextScale then
 			clickEvent = "monitor_touch"
@@ -30,7 +32,11 @@ end
 
 register = function(xorg, yorg, width, height, textColor, backgroundColor, text, func)
 	local newButtonID = false
-	for i = 1, #container do if not container[i].alive and not newButtonID then newButtonID = i end end
+	for i = 1, #container do
+		if not container[i].alive and not newButtonID then
+			newButtonID = i
+		end
+	end
 	if not newButtonID then
 		newButtonID = #container + 1
 		container[newButtonID] = {}
@@ -67,7 +73,13 @@ event = function(eventArray)
 		local button, mousex, mousey = eventArray[2], eventArray[3], eventArray[4]
 		for i = 1, #container do
 			if container[i].alive then
-				if container[i].enabled and mousex > container[i].xorg - 1 and mousey > container[i].yorg - 1 and mousex < container[i].xorg + container[i].width and mousey < container[i].yorg + container[i].height then container[i].func() end
+				if container[i].enabled and
+					mousex > container[i].xorg - 1 and
+					mousey > container[i].yorg - 1 and
+					mousex < container[i].xorg + container[i].width and
+					mousey < container[i].yorg + container[i].height then
+						container[i].func()
+				end
 			end
 		end
 	end
@@ -84,7 +96,8 @@ draw = function()
 				term.setBackgroundColor(container[i].backgroundColor)
 				term.write(string.rep(" ", container[i].width))
 			end
-			term.setCursorPos(container[i].xorg + math.floor((container[i].width - #container[i].text) / 2), container[i].yorg + math.floor((container[i].height - 1) / 2))
+			term.setCursorPos(container[i].xorg + math.floor((container[i].width - #container[i].text) / 2),
+									container[i].yorg + math.floor((container[i].height - 1) / 2))
 			term.write(container[i].text)
 		end
 	end
