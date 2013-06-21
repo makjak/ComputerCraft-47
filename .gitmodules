@@ -1,3 +1,6 @@
 [submodule "programs/MiningMachine"]
 	path = programs/MiningMachine
 	url = git@github.com:qlonik/MiningMachine.git
+[submodule "programs/PortalManager"]
+	path = programs/PortalManager
+	url = git@github.com:qlonik/PortalManager.git
