@@ -138,7 +138,7 @@ setColor = function(buttonID, colorT, colorB)
 	container[buttonID].backgroundColor = colorB
 end
 
-setDefaultColor = function(buttonID, colorT, colorB)
+setDefaultColor = function(colorT, colorB)
 	defaultColorT = colorT
 	defaultColorB = colorB
 end
