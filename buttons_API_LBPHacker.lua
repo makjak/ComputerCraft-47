@@ -70,6 +70,35 @@ unregister = function(buttonID)
 	container[buttonID].alive = false
 end
 
+enable = function(buttonID, bEnabled)
+	if not exists(buttonID) then error("Invalid identifier: " .. tostring(buttonID)) end
+	container[buttonID].enabled = bEnabled
+end
+
+show = function(buttonID, bVisible)
+	if not exists(buttonID) then error("Invalid identifier: " .. tostring(buttonID)) end
+	container[buttonID].visible = bVisible
+end
+
+setPosition = function(buttonID, xorg, yorg, width, height)
+	if not exists(buttonID) then error("Invalid identifier: " .. tostring(buttonID)) end
+	container[buttonID].xorg = xorg
+	container[buttonID].yorg = yorg
+	container[buttonID].width = width
+	container[buttonID].height = height
+end
+
+setColor = function(buttonID, colorT, colorB)
+	if not exists(buttonID) then error("Invalid identifier: " .. tostring(buttonID)) end
+	container[buttonID].textColor = colorT
+	container[buttonID].backgroundColor = colorB
+end
+
+setText = function(buttonID, sText)
+	if not exists(buttonID) then error("Invalid identifier: " .. tostring(buttonID)) end
+	container[buttonID].text = sText
+end
+
 event = function(eventArray)
 	if eventArray[1] == getClickEvent() then
 		local button, mousex, mousey = eventArray[2], eventArray[3], eventArray[4]
@@ -107,37 +136,8 @@ draw = function()
 	screen.setBackgroundColor(defaultColorB)
 end
 
-enable = function(buttonID, bEnabled)
-	if not exists(buttonID) then error("Invalid identifier: " .. tostring(buttonID)) end
-	container[buttonID].enabled = bEnabled
-end
-
-show = function(buttonID, bVisible)
-	if not exists(buttonID) then error("Invalid identifier: " .. tostring(buttonID)) end
-	container[buttonID].visible = bVisible
-end
-
-setPosition = function(buttonID, xorg, yorg, width, height)
-	if not exists(buttonID) then error("Invalid identifier: " .. tostring(buttonID)) end
-	container[buttonID].xorg = xorg
-	container[buttonID].yorg = yorg
-	container[buttonID].width = width
-	container[buttonID].height = height
-end
-
-setText = function(buttonID, sText)
-	if not exists(buttonID) then error("Invalid identifier: " .. tostring(buttonID)) end
-	container[buttonID].text = sText
-end
-
 setForcedEvent = function(fEvent)
 	forcedEvent = fEvent
-end
-
-setColor = function(buttonID, colorT, colorB)
-	if not exists(buttonID) then error("Invalid identifier: " .. tostring(buttonID)) end
-	container[buttonID].textColor = colorT
-	container[buttonID].backgroundColor = colorB
 end
 
 setDefaultColor = function(colorT, colorB)
