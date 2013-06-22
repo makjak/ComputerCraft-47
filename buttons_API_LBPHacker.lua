@@ -99,23 +99,6 @@ setText = function(buttonID, sText)
 	container[buttonID].text = sText
 end
 
-event = function(eventArray)
-	if eventArray[1] == getClickEvent() then
-		local button, mousex, mousey = eventArray[2], eventArray[3], eventArray[4]
-		for i = 1, #container do
-			if container[i].alive then
-				if container[i].enabled and
-					mousex > container[i].xorg - 1 and
-					mousey > container[i].yorg - 1 and
-					mousex < container[i].xorg + container[i].width and
-					mousey < container[i].yorg + container[i].height then
-						container[i].func()
-				end
-			end
-		end
-	end
-end
-
 draw = function()
 	screen.setBackgroundColor(defaultColorB)
 	screen.clear()
@@ -134,6 +117,23 @@ draw = function()
 	end
 	screen.setTextColor(defaultColorT)
 	screen.setBackgroundColor(defaultColorB)
+end
+
+event = function(eventArray)
+	if eventArray[1] == getClickEvent() then
+		local button, mousex, mousey = eventArray[2], eventArray[3], eventArray[4]
+		for i = 1, #container do
+			if container[i].alive then
+				if container[i].enabled and
+					mousex > container[i].xorg - 1 and
+					mousey > container[i].yorg - 1 and
+					mousex < container[i].xorg + container[i].width and
+					mousey < container[i].yorg + container[i].height then
+						container[i].func()
+				end
+			end
+		end
+	end
 end
 
 setForcedEvent = function(fEvent)
