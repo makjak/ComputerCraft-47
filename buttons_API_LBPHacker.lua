@@ -99,7 +99,7 @@ draw = function()
 				screen.write(string.rep(" ", container[i].width))
 			end
 			screen.setCursorPos(container[i].xorg + math.floor((container[i].width - #container[i].text) / 2),
-									container[i].yorg + math.floor((container[i].height - 1) / 2))
+				container[i].yorg + math.floor((container[i].height - 1) / 2))
 			screen.write(container[i].text)
 		end
 	end
