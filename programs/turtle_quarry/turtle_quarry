@@ -1,0 +1,355 @@
+-- quarry program
+-- -------> x (E/3)
+-- |            This is coordinates in mc
+-- |            we assume this is a first quarter
+-- |            and second will be next counterclockwise
+-- V z (S/0)
+
+tArgs = {...}
+
+local abs_start_x, abs_start_y, abs_start_z = gps.locate()
+local start_x, start_y, start_z = gps.locate()
+if start_x == nil then
+   print("Could not find GPS host. Exiting...")
+   return
+end
+local end_x, end_y, end_z = start_x, start_y, start_z
+local curr_x, curr_y, curr_z = start_x, start_y, start_z
+local dx, dy, dz
+local curr_line_num = 0
+local done = false
+--local firstSlice = true
+
+-- get direction in minecraft quantity (f: on f3 screen)
+function getDirection()
+   local p1 = vector.new(gps.locate(2))
+   while not turtle.forward() do
+      turtle.dig()
+   end
+   local p2 = vector.new(gps.locate())
+   local d = p2 - p1
+   turtle.back()
+   return ((d.x + math.abs(d.x) * 2) + (d.z + math.abs(d.z) * 3)) % 4
+end
+
+local curr_dir = getDirection() -- current direction
+local dir_names = {[0] = "+z", [1] = "-x", [2] = "-z", [3] ="+x"}
+local dir_nums = {['+z'] = 0, ['-x'] = 1, ['-z'] = 2, ['+x'] = 3}
+--print(directions[curr_dir])
+
+function printHelp()
+   print("This is unfinished help")
+end
+
+function updateLocation()
+   curr_x, curr_y, curr_z = gps.locate()
+end
+
+-- turning functions with directions
+function turnRight()
+   turtle.turnRight()
+   curr_dir = (curr_dir + 1) % 4
+end
+
+function turnLeft()
+   turtle.turnLeft()
+   curr_dir = (curr_dir - 1) % 4
+end
+
+function turnAround()
+   turtle.turnRight()
+   turtle.turnRight()
+   curr_dir = (curr_dir + 2) % 4
+end
+
+function move()
+   turtle.digUp()
+   turtle.digDown()
+   while (not turtle.forward()) do 
+      turtle.dig()
+   end
+   updateLocation()
+end
+
+function moveDown()
+   turtle.down()
+   turtle.digDown()
+   turtle.down()
+   turtle.digDown()
+   turtle.down()
+end
+
+function dropStuff() -- refuel and drop mined
+   if (turtle.getFuelLevel() < 50) then -- refuel
+      turtle.select(1)
+      turtle.refuel(8)
+   end
+
+   turtle.digUp()
+   turtle.digDown()
+
+   turtle.select(2) -- place enderchest
+   turtle.placeDown()
+
+   local i = 3 -- drop mined
+   while i <= 16 do
+      turtle.select(i)
+      if (turtle.compareTo(1)) then
+         turtle.transferTo(1)
+      end
+      turtle.dropDown()
+      i = i + 1
+   end
+
+   turtle.select(2) -- pick up enderchest
+   turtle.digDown()
+end
+
+function parseInput() 
+   if (#tArgs == 1) then -- square with size until bottom
+      dx = tonumber(tArgs[1])
+      dy = start_y
+      dz = dx
+   elseif (#tArgs == 2) then -- rectangle with size until bottom
+      dx = tonumber(tArgs[1])
+      dy = start_y
+      dz = tonumber(tArgs[2])
+   elseif (#tArgs == 3) then -- cuboid with given sizes
+      dx = tonumber(tArgs[1])
+      dy = tonumber(tArgs[2])
+      dz = tonumber(tArgs[3])
+   else
+      printHelp()
+      done = true
+   end
+   if (dx < 3 or dz < 3 or math.abs(dy) < 2) then
+      printHelp()
+      done = true
+   end
+end
+
+-- set up of ending points
+function setEndPoints()
+   local garbage
+   start_x, garbage, start_z = gps.locate()
+   end_x, end_z = start_x, start_z
+
+   if (curr_dir == dir_nums["+x"]) then
+      end_x = start_x + (dx - 1)
+      end_z = start_z + (dz - 1)
+   elseif (curr_dir == dir_nums["-x"]) then
+      end_x = start_x - (dx - 1)
+      end_z = start_z - (dz - 1)
+   elseif (curr_dir == dir_nums["+z"]) then
+      end_x = start_x - (dx - 1)
+      end_z = start_z + (dz - 1)
+   elseif (curr_dir == dir_nums["-z"]) then
+      end_x = start_x + (dx - 1)
+      end_z = start_z - (dz - 1)
+   end
+   if (dy < 0) then
+      end_y = start_y + dy + 2
+   elseif (dy > 0) then
+      end_y = start_y + dy - 2
+   end
+end
+
+-- 'first' value indicates whether number of line is odd or even
+-- so first line to dig is odd (it has first = true)
+-- second line is even (first = false)
+-- third is odd (first = true) and so on
+function dig(first, finish)
+   updateLocation()
+   if (first) then
+      if (curr_dir == dir_nums["+x"]) then
+         while (curr_x < end_x) do
+            move()
+            if (curr_x % 10 == start_x % 10) then
+               dropStuff()
+            end
+         end
+      elseif (curr_dir == dir_nums["-x"]) then
+         while (curr_x > end_x) do
+            move()
+            if (curr_x % 10 == start_x % 10) then
+               dropStuff()
+            end
+         end
+      elseif (curr_dir == dir_nums["+z"]) then
+         while (curr_z < end_z) do
+            move()
+            if (curr_z % 10 == start_z % 10) then
+               dropStuff()
+            end
+         end
+      elseif (curr_dir == dir_nums["-z"]) then
+         while (curr_z > end_z) do 
+            move()
+            if (curr_z % 10 == start_z % 10) then
+               dropStuff()
+            end
+         end
+      end
+   else 
+      if (curr_dir == dir_nums["+x"]) then
+         while (curr_x < start_x) do
+            move()
+            if (curr_x % 10 == start_x % 10) then
+               dropStuff()
+            end
+         end
+      elseif (curr_dir == dir_nums["-x"]) then
+         while (curr_x > start_x) do
+            move()
+            if (curr_x % 10 == start_x % 10) then
+               dropStuff()
+            end
+         end
+      elseif (curr_dir == dir_nums["+z"]) then
+         while (curr_z < start_z) do 
+            move()
+            if (curr_z % 10 == start_z % 10) then
+               dropStuff()
+            end
+         end
+      elseif (curr_dir == dir_nums["-z"]) then
+         while (curr_z > start_z) do 
+            move()
+            if (curr_z % 10 == start_z % 10) then
+               dropStuff()
+            end
+         end
+      end
+  end
+  turtle.digUp()
+  turtle.digDown()
+end
+
+-- this function starts function to dig line depending
+-- upon direction of the turtle
+function digLine()
+   if (curr_dir == dir_nums["+x"] or curr_dir == dir_nums["-x"]) then
+      if (math.abs(start_z - curr_z) % 2 == 0) then
+         dig(true, end_x)
+      else
+         dig(false, start_x)
+      end
+   elseif (curr_dir == dir_nums["+z"] or curr_dir == dir_nums["-z"]) then
+      if (math.abs(start_x - curr_x) % 2 == 0) then
+         dig(true, end_z)
+      else
+         dig(false, start_z)
+      end
+   end
+end
+
+-- this function turns turtle after finishing line
+function turn()
+   if (curr_dir == dir_nums["+x"] or curr_dir == dir_nums["-x"]) then
+      if (math.abs(start_z - curr_z) % 2 == 0) then
+         turnRight()
+         move()
+         turnRight()
+      else
+         turnLeft()
+         move()
+         turnLeft()
+      end
+   elseif (curr_dir == dir_nums["+z"] or curr_dir == dir_nums["-z"]) then
+      if (math.abs(start_x - curr_x) % 2 == 0) then
+         turnRight()
+         move()
+         turnRight()
+      else
+         turnLeft()
+         move()
+         turnLeft()
+      end
+   end
+end
+
+-- this function cuts one level and turns to be ready for next level
+function slice()
+   updateLocation()
+   setEndPoints()
+   local starting_dir = curr_dir
+
+   if (curr_dir == dir_nums["+x"]) then
+      while (curr_z < end_z) do
+         --if (curr_x % 10 == start_x % 10) then
+         --   dropStuff()
+         --end
+         digLine()
+         turn()
+      end
+
+      if (curr_z == end_z) then
+        digLine()
+      end  
+   elseif (curr_dir == dir_nums["-x"]) then
+      while (curr_z > end_z) do
+         --if (curr_x % 10 == start_x % 10) then
+         --   dropStuff()
+         --end
+         digLine()
+         turn()
+      end
+
+      if (curr_z == end_z) then
+         digLine()
+      end 
+   elseif (curr_dir == dir_nums["+z"]) then
+      while (curr_x > end_x) do
+         --if (curr_z % 10 == start_z % 10) then
+         --   dropStuff()
+         --end
+         digLine() 
+         turn()
+      end
+
+      if (curr_x == end_x) then
+         digLine()
+      end
+   elseif (curr_dir == dir_nums["-z"]) then
+      while (curr_x < end_x) do
+         --if (curr_z % 10 == start_z % 10) then
+         --   dropStuff()
+         --end
+         digLine() 
+         turn()
+      end
+
+      if (curr_x == end_x) then
+         digLine()
+      end
+   end
+   
+   if (starting_dir == dir_nums["+x"] or starting_dir == dir_nums["-x"]) then
+      if (math.abs(start_z - curr_z) % 2 == 0) then
+         turnAround()
+      else
+         turnRight()
+      end
+   elseif (starting_dir == dir_nums["+z"] or starting_dir == dir_nums["-z"]) then
+      if (math.abs(start_x - curr_x) % 2 == 0) then
+         turnAround()
+      else
+         turnRight()
+      end
+   end
+end
+
+parseInput()
+setEndPoints()
+
+while (not done) do
+   slice()
+   updateLocation()
+
+   -- check if turtle reached end and stop or move one more level down
+   if ((dy > 0 and curr_y >= end_y) or (dy < 0 and curr_y <= end_y)) then
+      done = true
+   else
+      moveDown()
+   end
+end

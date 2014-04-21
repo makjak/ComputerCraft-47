@@ -1,0 +1,47 @@
+-- machine for strip mining
+
+tArgs = {...}
+
+local dx = tonumber(tArgs[1])
+local dy = tonumber(tArgs[2])
+local dz = tonumber(tArgs[3])
+local curr_x, curr_y, curr_z = gps.locate()
+local end_x = curr_x + dx
+local end_y = curr_y + dy
+local end_z = curr_z + dz
+local by_x, by_y, by_z = false, false, false
+
+if dx ~= 0 then
+   by_x = true
+end
+if dy ~= 0 then
+   by_y = true
+end
+if dz ~= 0 then
+   by_z = true
+end
+
+while (by_x and curr_x ~= end_x) or (by_z and curr_z ~= end_z) do
+   turtle.digDown()
+--   turtle.digUp()
+
+   if turtle.getFuelLevel() == 0 then
+      turtle.select(1)
+      turtle.refuel(8)
+   end
+
+   if (by_x and curr_x % 10 == end_x % 10) or (by_z and curr_z % 10 == end_z % 10) then
+      turtle.select(2)
+      turtle.placeDown()
+   end
+
+   while (not turtle.forward()) do
+     turtle.dig()
+   end
+   
+   curr_x, curr_y, curr_z = gps.locate()
+end
+
+turtle.digDown()
+turtle.select(2)
+turtle.placeDown()
