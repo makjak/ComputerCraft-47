@@ -26,12 +26,6 @@ draw = function()
    buttons.draw()
 end
 
-resetColors = function()
-   for _, v in pairs(allBtns) do
-      buttons.setColor(v, defaultTextColor, defaultBgColor)
-   end
-end
-
 enableBtn = function(id)
    for _, v in pairs(allBtns) do
       if (v == id) then
