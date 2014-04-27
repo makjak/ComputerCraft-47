@@ -94,6 +94,7 @@ allBtns.reinforced = buttons.register(1, 1, 5, 3, defaultTextColor, defaultBgCol
 allBtns.imbued = buttons.register(1, 1, 5, 3, defaultTextColor, defaultBgColor, 'Imbued', imbuedBtn)
 allBtns.demonic = buttons.register(1, 1, 5, 3, defaultTextColor, defaultBgColor, 'Demonic', demonicBtn)
 
+draw()
 while (running) do
    local eventTable = {os.pullEvent()}
    buttons.event(eventTable)
