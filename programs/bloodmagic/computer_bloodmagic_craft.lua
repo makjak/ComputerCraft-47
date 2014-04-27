@@ -88,11 +88,11 @@ demonicBtn = function()
    waitInterval = demonicWait
 end
 
-allBtns.off = buttons.register(1, 1, 5, 3, defaultTextColor, defaultBgColor, 'Off', offBtn)
-allBtns.blank = buttons.register(1, 1, 5, 3, defaultTextColor, defaultBgColor, 'Blank', blankBtn)
-allBtns.reinforced = buttons.register(1, 1, 5, 3, defaultTextColor, defaultBgColor, 'Reinforced', reinforcedBtn)
-allBtns.imbued = buttons.register(1, 1, 5, 3, defaultTextColor, defaultBgColor, 'Imbued', imbuedBtn)
-allBtns.demonic = buttons.register(1, 1, 5, 3, defaultTextColor, defaultBgColor, 'Demonic', demonicBtn)
+allBtns.off = buttons.register(2, 2, 3, 2, defaultTextColor, defaultBgColor, 'Off', offBtn)
+allBtns.blank = buttons.register(13, 2, 5, 2, defaultTextColor, defaultBgColor, 'Blank', blankBtn)
+allBtns.reinforced = buttons.register(5, 6, 10, 2, defaultTextColor, defaultBgColor, 'Reinforced', reinforcedBtn)
+allBtns.imbued = buttons.register(2, 10, 6, 2, defaultTextColor, defaultBgColor, 'Imbued', imbuedBtn)
+allBtns.demonic = buttons.register(11, 10, 7, 2, defaultTextColor, defaultBgColor, 'Demonic', demonicBtn)
 
 enableBtn(allBtns.off)
 draw()
