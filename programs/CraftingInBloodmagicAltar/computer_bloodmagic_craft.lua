@@ -21,7 +21,7 @@ end--}}}
 
 getMonitorServerId = function() --{{{
    rednet.broadcast('PING')
-   local eventTable = {os.pullEvent}
+   local eventTable = {os.pullEvent()}
    local event = eventTable[1]
 
    if (event == 'rednet_message') then
@@ -39,7 +39,7 @@ while (not monitorServer) do
 end
 
 while (running) do
-   rednet.send(getMonitorServerId, 'slateState')
+   rednet.send(monitorServer, 'slateState')
 
    local eventTable = {os.pullEvent()}
    local event = eventTable[1]
@@ -70,7 +70,7 @@ while (running) do
       os.sleep(1)
       sendRedstoneSignal(activatorSide)
 
-      os.sleep(waitInterval)
+      os.sleep(wait)
 
       sendRedstoneSignal(activatorSide)
       sendRedstoneSignal(getSide)
