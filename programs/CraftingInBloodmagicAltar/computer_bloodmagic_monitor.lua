@@ -39,30 +39,35 @@ end
 offBtn = function()
    enableBtn(allBtns.off)
 
+   print('Slate changed from '..slateState..' to 0')
    slateState = 0
 end
 
 blankBtn = function()
    enableBtn(allBtns.blank)
 
+   print('Slate changed from '..slateState..' to 1')
    slateState = 1
 end
 
 reinforcedBtn = function()
    enableBtn(allBtns.reinforced)
 
+   print('Slate changed from '..slateState..' to 2')
    slateState = 2
 end
 
 imbuedBtn = function()
    enableBtn(allBtns.imbued)
 
+   print('Slate changed from '..slateState..' to 3')
    slateState = 3
 end
 
 demonicBtn = function()
    enableBtn(allBtns.demonic)
 
+   print('Slate changed from '..slateState..' to 4')
    slateState = 4
 end
 
@@ -85,6 +90,7 @@ while (running) do
          rednet.send(sender, 'PING')
       elseif (msg == 'slateState') then
          rednet.send(sender, slateState)
+         print('Reporting slate: '..slateState)
       end
    elseif (event == 'monitor_touch') then
       buttons.event(eventTable)
