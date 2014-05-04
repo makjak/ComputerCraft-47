@@ -38,35 +38,30 @@ end
 
 offBtn = function()
    enableBtn(allBtns.off)
-   -- draw()
 
    slateState = 0
 end
 
 blankBtn = function()
    enableBtn(allBtns.blank)
-   -- draw()
 
    slateState = 1
 end
 
 reinforcedBtn = function()
    enableBtn(allBtns.reinforced)
-   -- draw()
 
    slateState = 2
 end
 
 imbuedBtn = function()
    enableBtn(allBtns.imbued)
-   -- draw()
 
    slateState = 3
 end
 
 demonicBtn = function()
    enableBtn(allBtns.demonic)
-   -- draw()
 
    slateState = 4
 end
