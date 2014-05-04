@@ -3,7 +3,7 @@ local activatorSide = 'top'
 local putSide = 'right'
 local getSide = 'back'
 
-local blankWait = 6
+local blankWait = 10
 local reinforcedWait = 21
 local imbuedWait = 36
 local demonicWait = 54
