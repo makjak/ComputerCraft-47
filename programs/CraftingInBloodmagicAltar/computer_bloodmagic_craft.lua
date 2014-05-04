@@ -39,6 +39,7 @@ while (not monitorServer) do
 end
 
 while (running) do
+   print('New cycle')
    rednet.send(monitorServer, 'slateState')
 
    local eventTable = {os.pullEvent()}
@@ -69,15 +70,22 @@ while (running) do
    end
 
    if (not off) then
+      print(' - send to '..putSide)
       sendRedstoneSignal(putSide, 0.3)
       os.sleep(3)
+      print(' - send to '..activatorSide)
       sendRedstoneSignal(activatorSide, 0.8)
 
+      print(' - wait '..wait)
       os.sleep(wait)
 
+      print(' - send to '..activatorSide)
       sendRedstoneSignal(activatorSide, 0.8)
       os.sleep(3)
+      print(' - send to '..getSide)
       sendRedstoneSignal(getSide, 0.3)
+   else
+      print(' - turned off')
    end
 end
 
