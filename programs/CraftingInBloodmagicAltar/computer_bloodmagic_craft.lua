@@ -1,4 +1,4 @@
-local modemSide = 'bottom'
+local modemSide = 'left'
 local putSide = 'right'
 local getSide = 'back'
 
@@ -32,6 +32,7 @@ getMonitorServerId = function() --{{{
    end
 end--}}}
 
+rednet.open(modemSide)
 while (not monitorServer) do
    getMonitorServerId()
 end

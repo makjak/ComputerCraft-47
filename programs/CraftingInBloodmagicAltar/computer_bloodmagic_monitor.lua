@@ -10,6 +10,9 @@ os.loadAPI('buttons')
 local slateState = 0
 local running = true
 
+local modemSide = 'left'
+rednet.open(modemSide)
+
 local monSide = 'bottom'
 local monitor = peripheral.wrap(monSide)
 buttons.setDefaultOutput(monitor)
