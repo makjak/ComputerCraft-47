@@ -6,7 +6,7 @@ local getSide = 'back'
 local blankWait = 10
 local reinforcedWait = 21
 local imbuedWait = 36
-local demonicWait = 54
+local demonicWait = 56
 
 local running = true
 local off = true
