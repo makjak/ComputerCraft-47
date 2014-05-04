@@ -43,26 +43,29 @@ while (running) do
 
    local eventTable = {os.pullEvent()}
    local event = eventTable[1]
+   local msg
 
    if (event == 'rednet_message') then
-      local sender, msg, distance = eventTable[2], eventTable[3], eventTable[4]
+      msg = eventTable[3]
+   elseif (event == 'modem_message') then
+      msg = eventTable[5]
+   end
 
-      if (msg == '0') then
-         off = true
-         wait = 0
-      elseif (msg == '1') then
-         off = false
-         wait = blankWait
-      elseif (msg == '2') then
-         off = false
-         wait = reinforcedWait
-      elseif (msg == '3') then
-         off = false
-         wait = imbuedWait
-      elseif (msg == '4') then
-         off = false
-         wait = demonicWait
-      end
+   if (msg == 0) then
+      off = true
+      wait = 0
+   elseif (msg == 1) then
+      off = false
+      wait = blankWait
+   elseif (msg == 2) then
+      off = false
+      wait = reinforcedWait
+   elseif (msg == 3) then
+      off = false
+      wait = imbuedWait
+   elseif (msg == 4) then
+      off = false
+      wait = demonicWait
    end
 
    if (not off) then
