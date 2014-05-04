@@ -75,6 +75,8 @@ while (running) do
       os.sleep(3)
       print(' - send to '..activatorSide)
       sendRedstoneSignal(activatorSide, 0.8)
+      print(' - send to '..getSide)
+      sendRedstoneSignal(getSide, 0.3)
 
       print(' - wait '..wait)
       os.sleep(wait)
