@@ -13,9 +13,9 @@ local off = true
 local wait = 0
 local monitorServer
 
-sendRedstoneSignal = function(side)--{{{
+sendRedstoneSignal = function(side, time)--{{{
    redstone.setOutput(side, true)
-   os.sleep(0.5)
+   os.sleep(time)
    redstone.setOutput(side, false)
 end--}}}
 
@@ -66,14 +66,15 @@ while (running) do
    end
 
    if (not off) then
-      sendRedstoneSignal(putSide)
-      os.sleep(1)
-      sendRedstoneSignal(activatorSide)
+      sendRedstoneSignal(putSide, 0.3)
+      os.sleep(3)
+      sendRedstoneSignal(activatorSide, 0.8)
 
       os.sleep(wait)
 
-      sendRedstoneSignal(activatorSide)
-      sendRedstoneSignal(getSide)
+      sendRedstoneSignal(activatorSide, 0.8)
+      os.sleep(3)
+      sendRedstoneSignal(getSide, 0.3)
    end
 end
 
