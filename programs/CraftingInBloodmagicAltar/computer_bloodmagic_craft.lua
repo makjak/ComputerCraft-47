@@ -1,4 +1,5 @@
 local modemSide = 'left'
+local activatorSide = 'top'
 local putSide = 'right'
 local getSide = 'back'
 
@@ -66,7 +67,12 @@ while (running) do
 
    if (not off) then
       sendRedstoneSignal(putSide)
+      os.sleep(1)
+      sendRedstoneSignal(activatorSide)
+
       os.sleep(waitInterval)
+
+      sendRedstoneSignal(activatorSide)
       sendRedstoneSignal(getSide)
    end
 end
